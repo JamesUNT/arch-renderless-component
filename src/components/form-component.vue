@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, defineExpose } from 'vue'
+import { defineProps, defineExpose, watch } from 'vue'
 import { useForm } from '../composables/useForm'
 
 const props = defineProps({
@@ -11,7 +11,17 @@ const props = defineProps({
 
 const { formData, save, clear } = useForm(props.data)
 
-// expõe para o slot
+watch(
+  () => props.data,
+  (newData) => {
+    Object.keys(newData).forEach((key) => {
+      formData.value[key] = newData[key]
+    })
+  },
+  { deep: true, immediate: true },
+)
+
+// expõe para o slot, pode ser acessado diretamente do pai casso necessário.
 defineExpose({ formData, save, clear })
 </script>
 
