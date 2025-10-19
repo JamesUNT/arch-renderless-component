@@ -10,9 +10,9 @@ export function useForm<T extends Record<string, string>>(data: T) {
   /**
    * save recebe um callback externo que vai receber os dados mais recentes
    */
-  function save(callback: (payload: T) => Promise<void>) {
+  async function save(callback: (payload: T) => Promise<void>) {
     // sempre pega o estado mais recente do formData
-    return callback(toRaw(formData.value) as T)
+    return await callback(toRaw(formData.value) as T)
   }
 
   /**
