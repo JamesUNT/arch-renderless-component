@@ -3,7 +3,12 @@ import { ref } from 'vue'
 import FormComponent from '../../components/form-component.vue'
 import type { FormReference, FormData } from './modal-form-model'
 
-const initial = ref<FormData>({ nome: 'Thiago', email: 'tgs@medi.com' })
+const props = defineProps({
+  data: {
+    type: Object,
+    default: () => ({ nome: '', email: '' }),
+  },
+})
 const formRef = ref<FormReference>(null)
 
 async function salvarDados(dados: Record<string, string>) {
@@ -23,7 +28,7 @@ function modificarExterno() {
 </script>
 
 <template>
-  <FormComponent ref="formRef" :data="initial" v-slot="{ formData, save, clear }">
+  <FormComponent ref="formRef" :data="props.data" v-slot="{ formData, save, clear }">
     <div>
       <input v-model="formData.nome" placeholder="Nome" />
       <input v-model="formData.email" placeholder="Email" />
